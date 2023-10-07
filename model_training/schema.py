@@ -7,17 +7,18 @@ class Base(DeclarativeBase):
     pass
 
 
-class RailRoad(Base):
-    pass
+class Railroad(Base):
+    __tablename__ = "railroad"
 
+    
 
 class Manufacturer(Base):
-    pass
+    __tablename__ = "manufacturer"
 
 
 class Gauge(Base):
-    pass
-
+    __tablename__ = "track_gauge"
+    
 
 class Product(Base):
     # Has a Manufacturer
