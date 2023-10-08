@@ -1,12 +1,9 @@
-from typing import List
+
+
 from typing import Optional
 
-import sqlalchemy as sa
-from sqlalchemy.orm import DeclarativeBase
-from sqlalchemy.orm import Mapped
-from sqlalchemy.orm import mapped_column
-from sqlalchemy.orm import relationship
-
+from sqlalchemy import String
+from sqlalchemy.orm import DeclarativeBase, ForeignKey, Mapped, mapped_column, relationship
 
 # class User(Base):
 #     __tablename__ = "user_account"
@@ -39,14 +36,13 @@ class Railroad(Base):
     abbreviation: Mapped[str]
 
 
-
 class Manufacturer(Base):
     __tablename__ = "manufacturer"
 
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str]
 
-    products: Mapped[List["Product"]] = relationship(back_populates="manufacturer")
+    products: Mapped[list["Product"]] = relationship(back_populates="manufacturer")
 
 
 class Scale(Base):
