@@ -1,6 +1,6 @@
 import sqlalchemy as sa
-
 from sqlalchemy.orm import DeclarativeBase
+
 
 # declarative base class
 class Base(DeclarativeBase):
@@ -10,7 +10,7 @@ class Base(DeclarativeBase):
 class Railroad(Base):
     __tablename__ = "railroad"
 
-    
+
 
 class Manufacturer(Base):
     __tablename__ = "manufacturer"
@@ -18,16 +18,16 @@ class Manufacturer(Base):
 
 class Gauge(Base):
     __tablename__ = "track_gauge"
-    
+
 
 class Product(Base):
     # Has a Manufacturer
     # Has an Item_Number
     # (Manufacturer, Item_Number) should be unique but I'm not sure yet
     # Might have a Gauge
-    
+
     pass
-    
+
 class TrainSet(Base):
     # Is a product
     # Has zero to many of
@@ -57,7 +57,7 @@ class Layout(Base):
 
 class LayoutInventory(Base):
     # possibly how we indicate which items are part of which layout?
-    
-    
-    
-                 
+    pass
+
+
+
