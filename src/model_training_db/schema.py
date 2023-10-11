@@ -2,8 +2,8 @@
 
 from typing import Optional
 
-from sqlalchemy import String
-from sqlalchemy.orm import DeclarativeBase, ForeignKey, Mapped, mapped_column, relationship
+from sqlalchemy import ForeignKey, String
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 
 # class User(Base):
 #     __tablename__ = "user_account"
@@ -23,6 +23,7 @@ from sqlalchemy.orm import DeclarativeBase, ForeignKey, Mapped, mapped_column, r
 #     def __repr__(self) -> str:
 #         return f"Address(id={self.id!r}, email_address={self.email_address!r})"
 
+
 # declarative base class
 class Base(DeclarativeBase):
     pass
@@ -31,7 +32,7 @@ class Base(DeclarativeBase):
 class Railroad(Base):
     __tablename__ = "railroad"
 
-    id: Mapped[int] = mapped_column(primary_key=True)
+    railroad_id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str]
     abbreviation: Mapped[str]
 
@@ -39,10 +40,10 @@ class Railroad(Base):
 class Manufacturer(Base):
     __tablename__ = "manufacturer"
 
-    id: Mapped[int] = mapped_column(primary_key=True)
+    manu_id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str]
 
-    products: Mapped[list["Product"]] = relationship(back_populates="manufacturer")
+    # products: Mapped[list["Product"]] = relationship(back_populates="manufacturer")
 
 
 class Scale(Base):
@@ -53,13 +54,14 @@ class Scale(Base):
 class Product(Base):
     __tablename__ = "product"
 
-    id: Mapped[int] = mapped_column(primay_key=True)
-    manufacturer_id = mapped_column(ForeignKey("manufacturer.id"))
-    manufacturer: Mapped[Manufacturer] = relationship(back_populates="products")
+    product_id: Mapped[int] = mapped_column(primary_key=True)
+    manufacturer_id: Mapped[int] = mapped_column(ForeignKey("manufacturer.manu_id"))
+    # manufacturer: Mapped[Manufacturer] = relationship(back_populates="products")
+    item_number: Mapped[str]
 
     # Has a Manufacturer
     # Has an Item_Number
-    # (Manufacturer, Item_Number) should be unique but I'm not sure yet
+    # (Manufacturer, Item_Number) should be unique, but I'm not sure yet
     #
     # Might have a Gauge
 
@@ -67,6 +69,7 @@ class Product(Base):
 class TrainSet(Base):
     __tablename__ = "trainset"
 
+    trainset_id: Mapped[int] = mapped_column(ForeignKey("product.product_id"), primary_key=True)
     # Is a product
     # Has zero to many of
     #  - engines
@@ -77,26 +80,41 @@ class TrainSet(Base):
 
 
 class TrackSection(Base):
+    __tablename__ = 'track_section'
 
-    # has a gauge
-    # is a type of track
-    pass
+    section_id: Mapped[int] = mapped_column(primary_key=True)
+    geometry_id: Mapped[int] = mapped_column(ForeignKey('track_geometry.geometry_id'))
 
 
-class TrackInventory(Base):
+class TrackGeometry(Base):
+    __tablename__ = 'track_geometry'
+
+    geometry_id: Mapped[int] = mapped_column(primary_key=True)
+
+
+
+#class TrackInventory(Base):
     # Has a tracksection ID, foreign key to TrackSection
     # has a count of how many of those sections are currently present
-    pass
+#    pass
+
+#
+# class Layout(Base):
+#     """The thing with all the track where the model trains actually roll around.
+#     """
+#
+#     __tablename__ = "layout"
 
 
-class Layout(Base):
-    """The thing with all the track where the model trains actually roll around.
-    """
+class CarType(Base):
+    __tablename__ = "car_type"
+
+    car_type_id: Mapped[int] = mapped_column(primary_key=True)
+    description: Mapped[str]
 
 
-class LayoutInventory(Base):
-    # possibly how we indicate which items are part of which layout?
-    pass
+class TrainCar(Base):
+    __tablename__ = "train_car"
 
-
-
+    train_car_id: Mapped[int] = mapped_column(primary_key=True)
+    car_number: Mapped[str] = mapped_column(String(10))
