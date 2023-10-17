@@ -48,6 +48,7 @@ class Manufacturer(Base):
 
 class Scale(Base):
     __tablename__ = "scale"
+
     name: Mapped[str] = mapped_column(String(2), primary_key=True)
 
 
@@ -63,7 +64,7 @@ class Product(Base):
     # Has an Item_Number
     # (Manufacturer, Item_Number) should be unique, but I'm not sure yet
     #
-    # Might have a Gauge
+    # Might have a Scale
 
 
 class TrainSet(Base):
@@ -84,26 +85,21 @@ class TrackSection(Base):
 
     section_id: Mapped[int] = mapped_column(primary_key=True)
     geometry_id: Mapped[int] = mapped_column(ForeignKey('track_geometry.geometry_id'))
+    section_length: Mapped[int]  # Section length in inches
+    description: Mapped[str]
 
 
 class TrackGeometry(Base):
     __tablename__ = 'track_geometry'
 
     geometry_id: Mapped[int] = mapped_column(primary_key=True)
+    description: Mapped[str]
 
 
-
-#class TrackInventory(Base):
+# class TrackInventory(Base):
     # Has a tracksection ID, foreign key to TrackSection
     # has a count of how many of those sections are currently present
 #    pass
-
-#
-# class Layout(Base):
-#     """The thing with all the track where the model trains actually roll around.
-#     """
-#
-#     __tablename__ = "layout"
 
 
 class CarType(Base):
